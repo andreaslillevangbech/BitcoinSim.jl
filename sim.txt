@@ -1,0 +1,25 @@
+Monte Carlo sim to test policy.
+
+- Need to define policies
+  - SM
+  - Honest
+  - Intermittent SM
+- Transisiton without storing trans matrix
+- Rewards
+- 
+
+How does d update?
+
+
+#= Calculate size of state
+h, a ∈ [0,max_fork]
+s ∈ [0, 2015]
+d ∈ [300 * hashrate/C, 2 * 600*hashrate/C] Maybe set max to 2 times max(expected)
+w ∈ [0, dmax * 600 * no_of_blocks / 4]
+d adjustment cannot be more than 4 of less than 1/4
+Just set the hashrate very small, that downscales the problem
+NOTE: potential bug in w
+Dmax = 600*h/C
+time = DmaxC/h
+time = (600*h/C) * C / h = 600
+=#
