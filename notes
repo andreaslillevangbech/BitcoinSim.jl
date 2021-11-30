@@ -8,10 +8,8 @@ Monte Carlo sim to test policy.
 - Rewards
 - 
 
-How does d update?
 
-
-#= Calculate size of state
+Calculate size of state
 h, a ∈ [0,max_fork]
 s ∈ [0, 2015]
 d ∈ [300 * hashrate/C, 2 * 600*hashrate/C] Maybe set max to 2 times max(expected)
@@ -22,4 +20,8 @@ NOTE: potential bug in w
 Dmax = 600*h/C
 time = DmaxC/h
 time = (600*h/C) * C / h = 600
-=#
+
+
+
+When there is an update, there might be new blocks added already and then the counter should not start at zero. This creates a bias in the update
+

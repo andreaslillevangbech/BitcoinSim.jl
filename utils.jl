@@ -1,4 +1,3 @@
-
 @enum Action begin
   adopt = 1
   override = 2
@@ -6,18 +5,21 @@
   wait = 4
 end
 
+@enum Fork begin
+  irrelevant = 1
+  relevant = 2
+  active = 3
+end
 
 function d_adjust(d,w)
   return d * max(min((no_of_blocks * interblock) / w, 4), 1/4) 
   # return fd - fd % d_grid_size
 end
 
-
 function get_lambda(d)
   # expected_time = E[#hashes]/hashrate] = 1/λ
   return hashrate / (d*C)
 end
-
 
 function state_to_index(state)
   state[4] -= dmin
