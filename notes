@@ -21,7 +21,12 @@ Dmax = 600*h/C
 time = DmaxC/h
 time = (600*h/C) * C / h = 600
 
+NOTE: If there is an active fork and no one finds a block then the network is still forked. The action taken in the next period can be override if a>h (note a>=h since attacker matched). Adopt does not make sense and match cannot be performed again. If override then network is reset and and fork is irrelevant. If wait, then logic is like first match
 
+
+
+Problems:
 
 When there is an update, there might be new blocks added already and then the counter should not start at zero. This creates a bias in the update
 
+When there is an update, the secret blocks remaining might not satisfy the difficulty requirement
