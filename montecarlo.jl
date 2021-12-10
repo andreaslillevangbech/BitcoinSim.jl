@@ -9,8 +9,8 @@ using DelimitedFiles
 # Hyperparamters
 const no_of_blocks = 2016                 # 2016 in protocol
 const target_time   = 600                  # Expected seconds b/w blocks in protocol
-const shares       = (0.10, 0.50)
-const gammas       = (0.20, 0.8)
+const shares       = (0.1, 0.33, 0.35)
+const gammas       = (0.5, 0.9)
 const d_grid_size  = 1
 const Δt           = 1                    # Seconds
 const b            = 1                    # Change to 6.25
@@ -18,9 +18,9 @@ const β            = 1                    # 0.99999                        # in
 const max_fork     = 100
 
 # Simulation size
-const epochs       = 2      # Expected number of difficulty updates (epoch is 2016 settled block)
+const epochs       = 20      # Expected number of difficulty updates (epoch is 2016 settled block)
 const N            = epochs * target_time * no_of_blocks          # Periods of Δt to run a sim
-const S            = 2                   # Number of sims in Monte Carlo
+const S            = 20                   # Number of sims in Monte Carlo
 
 include("simulation.jl")
 include("policies.jl")
@@ -35,6 +35,7 @@ end
 # A state is a tuple of (honest, attack, settled, difficulty, time, fork)
 Random.seed!(666)
 const init_state = (0, 0, 0, dmean, 0, irrelevant)
+const n = N ÷ target_time
 const now = Dates.format(Dates.now(), "yyyy-mm-ddTHH:MM")
 
 function main()
@@ -46,15 +47,15 @@ function main()
 
             params = Params(share, γ, N) # Define parameters for this simulation
 
-            honest = Array{Float64}(undef, S, N)
-            stales_honest = Array{Tuple{Int, Int}}(undef, S, N)
-            epochs_honest = Array{Int}(undef, S, N)
-            selfish = Array{Float64}(undef, S, N)
-            stales_selfish = Array{Tuple{Int, Int}}(undef, S, N)
-            epochs_selfish = Array{Int}(undef, S, N)
-            opportunistic = Array{Float64}(undef, S, N)
-            stales_oppor = Array{Tuple{Int, Int}}(undef, S, N)
-            epochs_oppor = Array{Int}(undef, S, N)
+            honest = Array{Float64}(undef, S, n)
+            stales_honest = Array{Tuple{Int, Int}}(undef, S, n)
+            epochs_honest = Array{Int}(undef, S, n)
+            selfish = Array{Float64}(undef, S, n)
+            stales_selfish = Array{Tuple{Int, Int}}(undef, S, n)
+            epochs_selfish = Array{Int}(undef, S, n)
+            opportunistic = Array{Float64}(undef, S, n)
+            stales_oppor = Array{Tuple{Int, Int}}(undef, S, n)
+            epochs_oppor = Array{Int}(undef, S, n)
 
             for sim = 1:S
                 osm = OSM() # Start of by attacking
@@ -84,11 +85,11 @@ function main()
             # end
 
             # open("sim-D$now.csv", "w") do io
-            open("sim-dlm.csv", "w") do io
-                write(io, "Policy, share, N, gamma\n")
-                write(io, "Mean\nStd\nSh\nSa\nEpochs\n\n")  
+            open("sim-dlm.txt", "a") do io
+                # write(io, "Policy, share, N, gamma\n")
+                # write(io, "Mean\nStd\nSh\nSa\nEpochs\n\n")  
                 for (name, data) in pols
-                    stale_means = map(i -> mean.(zip(data[2][:,i]...)), 1:N)
+                    stale_means = map(i -> mean.(zip(data[2][:,i]...)), 1:n)
                     write(io, "$name, $share, $N, $γ\n")
                     writedlm(io, [mean(data[1], dims=1), std(data[1], dims=1), 
                                   first.(stale_means), last.(stale_means), mean(data[3], dims=1)])

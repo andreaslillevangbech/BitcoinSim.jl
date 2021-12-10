@@ -8,9 +8,13 @@ const dmin = dmax / 4  # estimate of lower bound on d
 
 function simulation(policy, init_state, sims, params; verbose = false)
 
-    values = Vector{Float64}(undef, N)
-    stales = Vector{Tuple{Int,Int}}(undef,N)
-    epochs = Vector{Int}(undef,N)
+    value = 0
+    epoch = 0
+    stale_h = 0
+    stale_a = 0
+    values = Vector{Float64}(undef, n)
+    stales = Vector{Tuple{Int,Int}}(undef,n)
+    epochs = Vector{Int}(undef,n)
     discount = 1
     state = init_state
 
@@ -27,9 +31,16 @@ function simulation(policy, init_state, sims, params; verbose = false)
             if sim < proba
                 state = first(new_state)
                 reward = new_state[3]
-                values[i] = reward * discount
-                stales[i] = Tuple(new_state[4])
-                epochs[i] = new_state[5]
+                value += reward * discount
+                epoch += new_state[5]
+                stale_h += new_state[4][1]
+                stale_a += new_state[4][2]
+                if i % target_time == 0  # save this one
+                    idx = i ÷ target_time
+                    values[idx] = value
+                    stales[idx] = (stale_h, stale_a)
+                    epochs[idx] = epoch
+                end
                 break
             end
         end
