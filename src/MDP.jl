@@ -1,7 +1,8 @@
 using LinearAlgebra
 using SparseArrays
 
-include("utils.jl")
+include("Utils.jl")
+include("Types.jl")
 
 # Hyperparamters
 const hashrate     = 100 * 10^7  #Ghashes per second - exogenous total hashrate of network

@@ -157,5 +157,3 @@ function transition(state, action, params)
 
     return new_states
 end # function
-
-

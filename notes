@@ -30,3 +30,11 @@ Problems:
 When there is an update, there might be new blocks added already and then the counter should not start at zero. This creates a bias in the update
 
 When there is an update, the secret blocks remaining might not satisfy the difficulty requirement
+
+
+
+
+
+Package structure:
+add depends
+

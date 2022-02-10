@@ -28,6 +28,24 @@ function sm1(state)::Action
     return wait
 end
 
+# Random policy designed to make time increase
+struct RandomP
+    ran::Float64
+end
+function (p::RandomP)(state)::Action
+    h, a, _, _, _, fork = state
+    if h > a + 1
+        return adopt
+    elseif a == h && fork == relevant
+        return match
+    elseif a > h
+        if rand() < p.ran
+            return override
+        end
+    end
+    return wait
+end
+
 # Intermittent Selfish mining
 mutable struct ISM
     attack::Bool
