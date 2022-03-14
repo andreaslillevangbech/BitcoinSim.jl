@@ -8,6 +8,11 @@ using DataFrames
 import Dates
 using DelimitedFiles
 
+include("Simulation.jl")
+include("Policies.jl")
+include("Types.jl")
+include("Utils.jl")
+
 # Hyperparamters
 const no_of_blocks = 2016                 # 2016 in protocol
 const target_time   = 600                  # Expected seconds b/w blocks in protocol
@@ -19,15 +24,18 @@ const b            = 1                    # Change to 6.25
 const β            = 1                    # 0.99999                        # in ]0, 1]
 const max_fork     = 100
 
+# Constants
+const hashrate = 100 * 10^7  #Ghashes per second - exogenous total hashrate of network
+const C = 2^48 ÷ 0xffff # 2^256 / (0xffff * 2^208)
+# const C      = 2^32 # approximation
+const dmean = target_time * hashrate / C    # estimate of upper bound on d
+const dmax = 2 * dmean
+const dmin = dmax / 4  # estimate of lower bound on d
+
 # Simulation size
 const epochs       = 20      # Expected number of difficulty updates (epoch is 2016 settled block)
 const N            = epochs * target_time * no_of_blocks          # Periods of Δt to run a sim
-const S            = 20                   # Number of sims in Monte Carlo
-
-include("Simulation.jl")
-include("Policies.jl")
-include("Types.jl")
-include("Utils.jl")
+const S            = 10                   # Number of sims in Monte Carlo
 
 struct Params
     share::Float64
@@ -126,9 +134,3 @@ function main()
 end    # main
 
 end # module
-
-# if abspath(PROGRAM_FILE) == @__FILE__
-#     main()
-# end
-
-

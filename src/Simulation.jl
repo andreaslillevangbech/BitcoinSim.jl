@@ -1,10 +1,3 @@
-# Constants
-const hashrate = 100 * 10^7  #Ghashes per second - exogenous total hashrate of network
-const C = 2^48 ÷ 0xffff # 2^256 / (0xffff * 2^208)
-# const C      = 2^32 # approximation
-const dmean = target_time * hashrate / C    # estimate of upper bound on d
-const dmax = 2 * dmean
-const dmin = dmax / 4  # estimate of lower bound on d
 
 function simulation(policy, init_state, sims, params; verbose = false)
 
