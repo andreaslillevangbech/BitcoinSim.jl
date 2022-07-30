@@ -21,7 +21,7 @@ for i, (c, ax) in enumerate(zip(combs, axs.flat)):
     ax.set_title(f"$\\alpha={share}$, $\\gamma={gamma}$")
     ax.legend()
 plt.show()
-fig.savefig("selfish", dpi=400)
+fig.savefig("plots/selfish", dpi=400)
 
 
 # Each data point here is 10 minutes apart
@@ -41,7 +41,7 @@ plt.xlabel('T')
 plt.ylabel('Revenue (block reward=1)')
 plt.legend()
 plt.show()
-fig.savefig('self0108.png')
+fig.savefig('plots/self0108.png')
 
 # Each data point here is 10 minutes apart
 # Four blocks is about 8 weeks
@@ -61,7 +61,7 @@ plt.xlabel('T')
 plt.ylabel('Revenue (block reward=1)')
 plt.legend()
 plt.show()
-fig.savefig('self03305.png')
+fig.savefig('plots/self03305.png')
 
 
 combs = ["inter-0.1-0.9", "inter-0.33-0.5", "random-0.4-0.9", "random-0.4-0.5"]

@@ -1,5 +1,5 @@
 
-function simulation(policy, init_state, sims, params; verbose = false)
+function simulation(policy, sims, params; verbose = false)
 
     value = 0
     epoch = 0
@@ -8,8 +8,8 @@ function simulation(policy, init_state, sims, params; verbose = false)
     values = Vector{Float64}(undef, n)
     stales = Vector{Tuple{Int,Int}}(undef,n)
     epochs = Vector{Int}(undef,n)
-    discount = 1
     state = init_state
+    discount = 1
 
     # main loop for one simulation
     for i = 1:(params.N)

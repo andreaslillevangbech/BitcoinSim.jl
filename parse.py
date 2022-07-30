@@ -3,6 +3,7 @@
 # A parser for the sim results
 import numpy as np
 import re
+
 file = open(0)
 data_line = False
 table = []
