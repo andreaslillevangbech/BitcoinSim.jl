@@ -40,7 +40,6 @@ const S            = 10                   # Number of sims in Monte Carlo
 struct Params
     share::Float64
     γ::Float64
-    N::Int
 end
 
 # struct Result 
@@ -61,7 +60,7 @@ function main()
     for γ in gammas
         for share in shares
 
-            params = Params(share, γ, N) # Define parameters for this simulation
+            params = Params(share, γ) # Define parameters for this simulation
 
             honest = Array{Float64}(undef, n, S)
             stales_honest = Array{Tuple{Int, Int}}(undef, n, S)

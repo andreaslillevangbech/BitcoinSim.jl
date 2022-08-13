@@ -12,7 +12,7 @@ function simulation(policy, sims, params; verbose = false)
     discount = 1
 
     # main loop for one simulation
-    for i = 1:(params.N)
+    for i = 1:N
         action = policy(state)
         new_states = transition(state, action, params)
         discount *= β
@@ -149,4 +149,4 @@ function transition(state, action, params)
     end
 
     return new_states
-end # function
+end # transition
